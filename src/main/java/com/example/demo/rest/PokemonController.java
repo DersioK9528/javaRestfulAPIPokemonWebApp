@@ -4,23 +4,28 @@ import com.example.demo.model.Pokemons;
 import com.example.demo.model.PokemonsResponse;
 import com.example.demo.service.IPokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.WebApplicationType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 
-import java.awt.*;
-
+/**
+ * REST controller for managing Pokémon data.
+ */
 @RestController
 @RequestMapping("/pokemon-api")
 public class PokemonController {
+
     @Autowired
     private IPokemonService pokemonService;
 
-    @RequestMapping(value="pokemons/", method = RequestMethod.GET, consumes = MediaType.ALL_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
-    public PokemonsResponse getPokemonsList(){
+    /**
+     * Retrieves a list of Pokémon with default limit and offset.
+     *
+     * @return The response containing a list of Pokémon.
+     */
+    @RequestMapping(value = "pokemons/", method = RequestMethod.GET, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public PokemonsResponse getPokemonsList() {
         PokemonsResponse pokemonsResponse;
         pokemonsResponse = pokemonService.getPokemonsListFromAPI();
         String totalItems = "100";
@@ -28,10 +33,14 @@ public class PokemonController {
         return pokemonsResponse;
     }
 
-    @RequestMapping(value = "pokemons/{name}", method = RequestMethod.GET,consumes = MediaType.ALL_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Retrieves a Pokémon by its name.
+     *
+     * @param name The name of the Pokémon to retrieve.
+     * @return The response containing the Pokémon.
+     */
+    @RequestMapping(value = "pokemons/{name}", method = RequestMethod.GET, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Pokemons> getPokemonByName(@PathVariable String name) {
-        // Implement logic to retrieve Pokémon by name from your service
-        // You can use the 'name' parameter to fetch the specific Pokémon
         Pokemons pokemons;
         pokemons = pokemonService.getPokemonByName(name);
         if (pokemons != null) {
@@ -40,12 +49,19 @@ public class PokemonController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-        @RequestMapping(value = "/pokemons", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-        public PokemonsResponse getPokemonsListWithLimitAndOffset(
-                @RequestParam(name = "limit", defaultValue = "10") int limit,
-                @RequestParam(name = "offset", defaultValue = "0") int offset) {
-            // Add logic to apply the limit and offset to the API call
-            PokemonsResponse pokemonsResponse = pokemonService.getPokemonsListFromAPIWithLimitAndOffset(limit, offset);
-            return pokemonsResponse;
-        }
+
+    /**
+     * Retrieves a list of Pokémon with specified limit and offset.
+     *
+     * @param limit  The maximum number of Pokémon to retrieve.
+     * @param offset The starting index of the retrieved list.
+     * @return The response containing a list of Pokémon.
+     */
+    @RequestMapping(value = "/pokemons", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public PokemonsResponse getPokemonsListWithLimitAndOffset(
+            @RequestParam(name = "limit", defaultValue = "10") int limit,
+            @RequestParam(name = "offset", defaultValue = "0") int offset) {
+        PokemonsResponse pokemonsResponse = pokemonService.getPokemonsListFromAPIWithLimitAndOffset(limit, offset);
+        return pokemonsResponse;
+    }
 }
