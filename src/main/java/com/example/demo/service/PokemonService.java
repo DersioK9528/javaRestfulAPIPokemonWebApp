@@ -14,6 +14,10 @@ public class PokemonService implements IPokemonService {
 
     RestTemplate restTemplate = new RestTemplate();
 
+    public PokemonService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     /**
      * Fetch a list of Pokémon from the external API.
      *

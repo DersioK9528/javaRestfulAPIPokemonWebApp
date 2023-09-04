@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -20,6 +22,16 @@ public class PokemonsResponse {
 
     @JsonProperty("results")
     private List<Pokemons> results;
+
+    public PokemonsResponse(String count, String next, String previous, List<Pokemons> results) {
+        this.count = count;
+        this.next = next;
+        this.previous = previous;
+        this.results = results;
+    }
+
+    public PokemonsResponse() {
+    }
 
     /**
      * Gets the count of Pokémon in the response.

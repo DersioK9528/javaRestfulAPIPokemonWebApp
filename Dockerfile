@@ -1,5 +1,5 @@
 # Use an official OpenJDK runtime as a parent image
-FROM openjdk:19
+FROM openjdk:11
 # Set the working directory in the container
 WORKDIR /app
 
@@ -7,7 +7,7 @@ WORKDIR /app
 COPY target/demo-0.0.1-SNAPSHOT.jar .
 
 # Expose the port that your application will listen on
-EXPOSE 8080
+EXPOSE 8082
 
 # Define the command to run your application
 CMD ["java", "-jar", "demo-0.0.1-SNAPSHOT.jar"]

@@ -19,6 +19,16 @@ public class Pokemons {
     @JsonProperty("types")
     private Object[] types;
 
+    public Pokemons(String name, Object[] stats, String url, Object[] types) {
+        this.name = name;
+        this.stats = stats;
+        this.url = url;
+        this.types = types;
+    }
+
+    public Pokemons() {
+    }
+
     /**
      * Gets the URL of the Pokémon.
      *
